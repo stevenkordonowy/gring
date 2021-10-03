@@ -38,7 +38,7 @@ def main():
         # )
 
         # auth = token['access_token']
-        auth_manager=auth
+        client_credentials_manager=auth
     )
 
     test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
@@ -47,7 +47,7 @@ def main():
 
     c = 0
     while True:
-        name = 'fuckyy{}'.format(c)
+        name = 'fuckistan{}'.format(c)
         try:
             sp.playlist_change_details(
                 test_playlist_id,
