@@ -1,3 +1,1 @@
-web: python gring.py
-
-worker: python gring.py 
+web: gunicorn wsgi:app

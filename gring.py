@@ -182,5 +182,6 @@ def main(text):
 
 if __name__ == '__main__':
     logger.debug('HELLO!!!')
-    app.run(host='localhost', port=9874)
+    # app.run(host='localhost', port=9874)
+    app.run()
     # main('hi')
