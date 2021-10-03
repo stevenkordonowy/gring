@@ -27,7 +27,7 @@ def main():
             client_id = app_id
         )
 
-    # token = auth.get_access_token()
+    token = auth.get_access_token()
 
     sp = spotipy.Spotify(
         # auth_manager = SpotifyOAuth(
@@ -37,7 +37,8 @@ def main():
         #     redirect_uri = redirect_uri
         # )
 
-        # auth = token['access_token']
+        auth = token['access_token'],
+        auth_manager = auth,
         client_credentials_manager=auth
     )
 
@@ -47,7 +48,7 @@ def main():
 
     c = 0
     while True:
-        name = 'fuckistan{}'.format(c)
+        name = 'wellwtf{}'.format(c)
         try:
             sp.playlist_change_details(
                 test_playlist_id,
