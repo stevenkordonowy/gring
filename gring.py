@@ -4,7 +4,7 @@ import logging
 import time
 
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 
 logger = logging.getLogger('green-ring-fix')
 logging.basicConfig(level='DEBUG')
@@ -15,14 +15,21 @@ def main():
     # args = get_args()
     app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
     app_secret = 'b6407e24d4e343d189a9d61590226f2a'
-    redirect_uri = 'http://example.com'
+    redirect_uri = 'http://127.0.0.1:9090'
 
     sp = spotipy.Spotify(
-        auth_manager = SpotifyOAuth(
-            scope = scope,
+        # auth_manager = SpotifyOAuth(
+        #     scope = scope,
+        #     client_secret = app_secret,
+        #     client_id = app_id,
+        #     redirect_uri = redirect_uri
+        # )
+
+        auth_manager = SpotifyClientCredentials(
+            # scope = scope,
             client_secret = app_secret,
-            client_id = app_id,
-            redirect_uri = redirect_uri
+            client_id = app_id
+            # redirect_uri = redirect_uri
         )
     )
 
@@ -30,7 +37,7 @@ def main():
 
     c = 0
     while True:
-        name = 'IDIOT{}'.format(c)
+        name = 'deployed-idiot{}'.format(c)
         try:
             sp.playlist_change_details(
                 test_playlist_id,
