@@ -40,16 +40,18 @@ def main():
 
     test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
 
+    description = 'Let your mind wander with some Organic/Melodic House'
+
     c = 0
     while True:
-        name = 'deployed-idiot{}'.format(c)
+        name = 'deployed-moron{}'.format(c)
         try:
             sp.playlist_change_details(
                 test_playlist_id,
                 name = name,
                 public = True,
                 collaborative = False,
-                description = 'Just playin')
+                description = description)
 
             # sp.playlist_upload_cover_image(
             #     test_playlist_id,
