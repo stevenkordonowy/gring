@@ -74,7 +74,7 @@ def my_form_post():
     #     redirect_uri = redirect_uri,
     #     open_browser=False,
     #     cache_handler=cache)
-    threading.Thread(target = main, args = [text]).start()
+    threading.Thread(target = kickoff_stuff, args = [text]).start()
     return processed_text
 
 # @app.route('/')
@@ -119,7 +119,7 @@ class LazyAuth(SpotifyOAuth):
         return self.code
 
 
-def main(text):
+def kickoff_stuff(text):
     print('Well looky here:{}'.format(text))
     # args = get_args()
     app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
@@ -137,12 +137,6 @@ def main(text):
             open_browser=False,
             cache_handler=cache
         )
-
-    # token = oauth.get_access_token(check_cache=False)
-    # auth_pkce = spotipy.SpotifyPKCE(
-    #     client_id=app_id,
-    #     redirect_uri=redirect_uri
-    # )
 
     sp = spotipy.Spotify(
         auth_manager = oauth
