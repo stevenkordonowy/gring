@@ -33,7 +33,7 @@ def main():
         name = 'IDIOT{}'.format(c)
         try:
             sp.playlist_change_details(
-                # test_playlist_id,
+                test_playlist_id,
                 name = name,
                 public = True,
                 collaborative = False,
