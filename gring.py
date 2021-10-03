@@ -20,22 +20,24 @@ def main():
     # args = get_args()
     app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
     app_secret = 'b6407e24d4e343d189a9d61590226f2a'
-    redirect_uri = 'http://localhost:8000'
+    # redirect_uri = 'http://localhost:8000'
 
-    sp = spotipy.Spotify(
-        auth_manager = SpotifyOAuth(
-            scope = scope,
+    auth = SpotifyClientCredentials(
             client_secret = app_secret,
-            client_id = app_id,
-            redirect_uri = redirect_uri
+            client_id = app_id
         )
 
-        # auth_manager = SpotifyClientCredentials(
-        #     # scope = scope,
+    token = auth.get_access_token()
+
+    sp = spotipy.Spotify(
+        # auth_manager = SpotifyOAuth(
+        #     scope = scope,
         #     client_secret = app_secret,
-        #     client_id = app_id
-        #     # redirect_uri = redirect_uri
+        #     client_id = app_id,
+        #     redirect_uri = redirect_uri
         # )
+        auth = token['access_token']
+        
     )
 
     test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
