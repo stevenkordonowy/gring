@@ -15,7 +15,7 @@ import threading
 logger = logging.getLogger('green-ring-fix')
 logging.basicConfig(level='DEBUG')
 
-scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
+scope = 'playlist-modify-public playlist-modify-private ugc-image-upload user-follow-read'
 
 app = Flask(__name__)
 
@@ -35,8 +35,8 @@ def get():
 
     auth_url = oauth.get_authorize_url()
 
-    t = render_template('my-form.html').replace('SHIT', auth_url)
-    return t
+    # t = 
+    return render_template('my-form.html').replace('SHIT', auth_url)
 
 @app.route('/', methods=['POST'])
 def post():
@@ -65,20 +65,16 @@ class LazyAuth(SpotifyOAuth):
 
 
 def kickoff_stuff(text):
-    print('Well looky here:{}'.format(text))
-    # args = get_args()
     app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
     app_secret = 'b6407e24d4e343d189a9d61590226f2a'
     redirect_uri = 'http://www.example.com'
 
-    # cache = spotipy.cache_handler.MemoryCacheHandler('obvsnot')
-
     oauth = LazyAuth(
             code = text,
             scope = scope,
-            client_secret = app_secret,
-            client_id = app_id,
-            redirect_uri = redirect_uri,
+            # client_secret = app_secret,
+            # client_id = app_id,
+            # redirect_uri = redirect_uri,
             open_browser=False
         )
 
@@ -94,17 +90,17 @@ def kickoff_stuff(text):
     while True:
         name = 'newdeplo{}'.format(c)
         try:
-            # sp.playlist_change_details(
-            #     test_playlist_id,
-            #     name = name,
-            #     public = True,
-            #     collaborative = False,
-            #     description = description)
-
-            sp.playlist_upload_cover_image(
+            sp.playlist_change_details(
                 test_playlist_id,
-                load_binary('file://ball.jpg')
-            )
+                name = name,
+                public = True,
+                collaborative = False,
+                description = description)
+
+            # sp.playlist_upload_cover_image(
+            #     test_playlist_id,
+            #     load_binary('file://ball.jpg')
+            # )
             print('done with {}'.format(c))
             c += 1
         except Exception as e:
@@ -115,6 +111,6 @@ def kickoff_stuff(text):
 
 if __name__ == '__main__':
     logger.debug('HELLO!!!')
-    f = '{}/{}'.format(pathlib.Path().resolve().as_uri(), 'ball.jpg')
-    load_binary(f)
+    # f = '{}/{}'.format(pathlib.Path().resolve().as_uri(), 'ball.jpg')
+    # load_binary(f)
     app.run()
