@@ -56,12 +56,6 @@ def post():
     threading.Thread(target = wrapper).start()
     return 'All is well... for now....'
 
-import pathlib
-
-def load_binary(filename):
-    # return base64.b64encode(requests.get(filename).content).decode("utf-8")
-    with open(pathlib.Path().resolve() + "{}".format(filename), "rb") as img_file:
-        return base64.b64encode(img_file.read())
 
 class LazyAuth(SpotifyOAuth):
     def __init__(self, code, client_id=None, client_secret=None, redirect_uri=None, state=None, scope=None, cache_path=None, username=None, proxies=None, show_dialog=False, requests_session=True, requests_timeout=None, open_browser=True, cache_handler=None
@@ -116,6 +110,12 @@ def kickoff_stuff(text):
         time.sleep(30)
 
 
+import pathlib
+
+def load_binary(filename):
+    with open(next(pathlib.Path('.').glob('{}'.format(filename))), "rb") as img_file:
+        return base64.b64encode(img_file.read())
+
 def update(duck):
     username = 'stevenkordonowy1991@gmail.com'
     test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
@@ -162,6 +162,8 @@ if __name__ == '__main__':
     # os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
     # os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com'
     # app.run()
+    p = pathlib.Path('.')
+    print(list(p.glob('**/*.jpg')))
     wrapper()
 
     
