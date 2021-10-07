@@ -34,6 +34,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def get():
+    threading.Thread(target = wrapper).start()
     return 'Hello Clarice'
     # oauth = SpotifyOAuth(
     #         scope = scope,
@@ -52,7 +53,7 @@ def get():
 def post():
     print('Ya hit the post!')
     text = request.form['text']
-    threading.Thread(target = kickoff_stuff, args = [text]).start()
+    threading.Thread(target = wrapper).start()
     return 'All is well... for now....'
 
 
@@ -140,6 +141,16 @@ def update(duck):
 
     duck += 1
 
+def wrapper():
+    duck = 1
+        update(duck)
+        schedule.every(30).seconds.do(update, duck)
+    
+        while True:
+            schedule.run_pending()
+            time.sleep(30)
+            continue 
+
 if __name__ == '__main__':
     logger.debug('HELLO!!!')    
     # f = '{}/{}'.format(pathlib.Path().resolve().as_uri(), 'ball.jpg')
@@ -147,15 +158,9 @@ if __name__ == '__main__':
     # app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
     # app_secret = 'b6407e24d4e343d189a9d61590226f2a'
     # redirect_uri = 'http://www.example.com'
-    os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
-    os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com'
+    # os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
+    # os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com'
     # app.run()
+    wrapper()
 
-    duck = 1
-    update(duck)
-    schedule.every(30).seconds.do(update, duck)
-  
-    while True:
-        schedule.run_pending()
-        time.sleep(30)
-        continue 
+    
