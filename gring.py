@@ -56,10 +56,11 @@ def post():
     threading.Thread(target = wrapper).start()
     return 'All is well... for now....'
 
+import pathlib
 
 def load_binary(filename):
     # return base64.b64encode(requests.get(filename).content).decode("utf-8")
-    with open("C:\\Users\\steve\\greenring\\{}".format(filename), "rb") as img_file:
+    with open(pathlib.Path().resolve() + "{}".format(filename), "rb") as img_file:
         return base64.b64encode(img_file.read())
 
 class LazyAuth(SpotifyOAuth):
@@ -123,7 +124,7 @@ def update(duck):
     token = util.prompt_for_user_token(username, scope)
     sp = spotipy.Spotify(auth=token)
 
-    name = 'fuck-noway{}'.format(duck + 1)
+    name = 'DEPLODEPLOY{}'.format(duck + 1)
     try:
         sp.playlist_change_details(
             test_playlist_id,
