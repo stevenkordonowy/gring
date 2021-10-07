@@ -3,6 +3,7 @@ import time
 import base64
 import requests
 import pathlib
+import schedule
 
 import spotipy
 from spotipy import util
@@ -10,6 +11,7 @@ from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials, SpotifyStateE
 from flask import Flask, redirect, request, render_template
 import requests as req
 import threading
+import os
 
 
 logger = logging.getLogger('green-ring-fix')
@@ -18,12 +20,21 @@ logging.basicConfig(level='DEBUG')
 scope = 'playlist-modify-public playlist-modify-private ugc-image-upload user-follow-read'
 
 app = Flask(__name__)
+# app.config['SECRET_KEY'] = os.urandom(64)
+# app.config['SESSION_TYPE'] = 'filesystem'
+# app.config['SESSION_FILE_DIR'] = './.flask_session/'
+# Session(app)
+
+# caches_folder = './.spotify_caches/'
+# if not os.path.exists(caches_folder):
+#     os.makedirs(caches_folder)
+
+# def session_cache_path():
+#     return caches_folder + session.get('uuid')
 
 @app.route("/")
 def get():
-    # app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
-    # app_secret = 'b6407e24d4e343d189a9d61590226f2a'
-    # redirect_uri = 'http://www.example.com'
+
 
     oauth = SpotifyOAuth(
             scope = scope,
@@ -47,7 +58,9 @@ def post():
 
 
 def load_binary(filename):
-    return base64.b64encode(requests.get(filename).content).decode("utf-8")
+    # return base64.b64encode(requests.get(filename).content).decode("utf-8")
+    with open("C:\\Users\\steve\\greenring\\{}".format(filename), "rb") as img_file:
+        return base64.b64encode(img_file.read())
 
 class LazyAuth(SpotifyOAuth):
     def __init__(self, code, client_id=None, client_secret=None, redirect_uri=None, state=None, scope=None, cache_path=None, username=None, proxies=None, show_dialog=False, requests_session=True, requests_timeout=None, open_browser=True, cache_handler=None
@@ -65,16 +78,9 @@ class LazyAuth(SpotifyOAuth):
 
 
 def kickoff_stuff(text):
-    app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
-    app_secret = 'b6407e24d4e343d189a9d61590226f2a'
-    redirect_uri = 'http://www.example.com'
-
     oauth = LazyAuth(
             code = text,
             scope = scope,
-            # client_secret = app_secret,
-            # client_id = app_id,
-            # redirect_uri = redirect_uri,
             open_browser=False
         )
 
@@ -88,7 +94,7 @@ def kickoff_stuff(text):
 
     c = 0
     while True:
-        name = 'newdeplo{}'.format(c)
+        name = 'FUCKYOU{}'.format(c)
         try:
             sp.playlist_change_details(
                 test_playlist_id,
@@ -97,20 +103,60 @@ def kickoff_stuff(text):
                 collaborative = False,
                 description = description)
 
-            # sp.playlist_upload_cover_image(
-            #     test_playlist_id,
-            #     load_binary('file://ball.jpg')
-            # )
+            sp.playlist_upload_cover_image(
+                playlist_id = test_playlist_id,
+                image_b64 = load_binary('droff.jpg')
+            )
             print('done with {}'.format(c))
             c += 1
         except Exception as e:
             logger.error('RUH ROH\n{}'.format(e))
 
-        time.sleep(60)
+        time.sleep(30)
 
+
+def update(duck):
+    username = 'stevenkordonowy1991@gmail.com'
+    test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
+    description = 'Let your mind wander with some Organic/Melodic House'
+
+    token = util.prompt_for_user_token(username, scope)
+    sp = spotipy.Spotify(auth=token)
+
+    name = 'deployed-noway{}'.format(duck + 1)
+    try:
+        sp.playlist_change_details(
+            test_playlist_id,
+            name = name,
+            public = True,
+            collaborative = False,
+            description = description)
+
+        sp.playlist_upload_cover_image(
+            playlist_id = test_playlist_id,
+            image_b64 = load_binary('droff.jpg')
+        )
+    except Exception as e:
+        logger.error('RUH ROH\n{}'.format(e))
+
+    duck += 1
 
 if __name__ == '__main__':
-    logger.debug('HELLO!!!')
+    logger.debug('HELLO!!!')    
     # f = '{}/{}'.format(pathlib.Path().resolve().as_uri(), 'ball.jpg')
     # load_binary(f)
-    app.run()
+    # app_id = '68e489df7f1b4cef9d6a69cc8a0b649a'
+    # app_secret = 'b6407e24d4e343d189a9d61590226f2a'
+    # redirect_uri = 'http://www.example.com'
+    os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
+    os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com'
+    # app.run()
+
+    duck = 1
+    update(duck)
+    schedule.every(30).seconds.do(update, duck)
+  
+    while True:
+        schedule.run_pending()
+        time.sleep(30)
+        continue 
