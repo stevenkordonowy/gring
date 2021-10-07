@@ -124,7 +124,7 @@ def update(duck):
     token = util.prompt_for_user_token(username, scope)
     sp = spotipy.Spotify(auth=token)
 
-    name = 'DEPLODEPLOY{}'.format(duck + 1)
+    name = 'Dawg{}'.format(duck + 1)
     try:
         sp.playlist_change_details(
             test_playlist_id,
@@ -133,10 +133,12 @@ def update(duck):
             collaborative = False,
             description = description)
 
+        logging.getLogger().setLevel('INFO')
         sp.playlist_upload_cover_image(
             playlist_id = test_playlist_id,
             image_b64 = load_binary('droff.jpg')
         )
+        logging.getLogger().setLevel('DEBUG')
     except Exception as e:
         logger.error('RUH ROH\n{}'.format(e))
 
@@ -145,7 +147,7 @@ def update(duck):
 def wrapper():
     duck = 1
     update(duck)
-    schedule.every(30).seconds.do(update, duck)
+    schedule.every(60).seconds.do(update, duck)
 
     while True:
         schedule.run_pending()
