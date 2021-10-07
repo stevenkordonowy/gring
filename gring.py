@@ -123,7 +123,7 @@ def update(duck):
     token = util.prompt_for_user_token(username, scope)
     sp = spotipy.Spotify(auth=token)
 
-    name = 'deployed-noway{}'.format(duck + 1)
+    name = 'fuck-noway{}'.format(duck + 1)
     try:
         sp.playlist_change_details(
             test_playlist_id,
@@ -143,13 +143,13 @@ def update(duck):
 
 def wrapper():
     duck = 1
-        update(duck)
-        schedule.every(30).seconds.do(update, duck)
-    
-        while True:
-            schedule.run_pending()
-            time.sleep(30)
-            continue 
+    update(duck)
+    schedule.every(30).seconds.do(update, duck)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(30)
+        continue 
 
 if __name__ == '__main__':
     logger.debug('HELLO!!!')    
