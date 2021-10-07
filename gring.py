@@ -12,7 +12,7 @@ from flask import Flask, redirect, request, render_template
 import requests as req
 import threading
 import os
-
+from flask_caching import Cache
 
 logger = logging.getLogger('green-ring-fix')
 logging.basicConfig(level='DEBUG')
@@ -118,7 +118,8 @@ def load_binary(filename):
 
 def update(duck):
     username = 'stevenkordonowy1991@gmail.com'
-    test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
+    # test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
+    test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
     description = 'Let your mind wander with some Organic/Melodic House'
 
     token = util.prompt_for_user_token(username, scope)
