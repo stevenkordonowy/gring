@@ -34,20 +34,19 @@ app = Flask(__name__)
 
 @app.route("/")
 def get():
+    return 'Hello Clarice'
+    # oauth = SpotifyOAuth(
+    #         scope = scope,
+    #         # client_secret = app_secret,
+    #         # client_id = app_id,
+    #         # redirect_uri = redirect_uri,
+    #         open_browser=False
+    #     )
 
+    # auth_url = oauth.get_authorize_url()
 
-    oauth = SpotifyOAuth(
-            scope = scope,
-            # client_secret = app_secret,
-            # client_id = app_id,
-            # redirect_uri = redirect_uri,
-            open_browser=False
-        )
-
-    auth_url = oauth.get_authorize_url()
-
-    # t = 
-    return render_template('my-form.html').replace('SHIT', auth_url)
+    # # t = 
+    # return render_template('my-form.html').replace('SHIT', auth_url)
 
 @app.route('/', methods=['POST'])
 def post():
