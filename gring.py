@@ -62,8 +62,20 @@ def get(stuff = None):
     if not app.authd:
         logging.warn('Need to auth')
         return redirect('/token')
+
+    # text = request.form['code']
     threading.Thread(target = wrapper, args=[]).start()
     return str(app.authd)
+
+# @app.route("/?code")
+# def getc(stuff = None):
+#     if not app.authd:
+#         logging.warn('Need to auth')
+#         return redirect('/token')
+
+#     text = request.form['code']
+#     threading.Thread(target = wrapper, args=[]).start()
+#     return str(app.authd)
 
 # Raj:
 # * Need a confirmed email, remove from PhD and put into masters, need SID
@@ -95,6 +107,7 @@ def post():
     app.sp = spotipy.Spotify(oauth_manager=oauth)
     app.authd = True
     return redirect('/')
+    # return '/'
 
 
 class LazyAuth(SpotifyOAuth):
@@ -122,7 +135,7 @@ def update():
     # username = 'stevenkordonowy1991@gmail.com'
     # test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
     test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
-    test_name = 'For real praxctice!'
+    test_name = 'Deployed practice!'
 
     # playlist_id = ''
     # name = 'Drifting Off'
