@@ -161,7 +161,7 @@ def wrapper():
         continue 
 
 if __name__ == '__main__':
-    logger.info('Trying for real for real')
+    logger.info('Trying for real for real FOR REAL')
 
     app.run()
 
