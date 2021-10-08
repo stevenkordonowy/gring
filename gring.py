@@ -138,7 +138,7 @@ def update():
 
         logging.getLogger().setLevel('INFO')
         app.sp.playlist_upload_cover_image(
-            playlist_id = playlist_id,
+            playlist_id = test_playlist_id,
             image_b64 = load_binary('droff.jpg')
         )
         logging.getLogger().setLevel('DEBUG')
