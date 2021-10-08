@@ -61,7 +61,7 @@ app = Flasky(__name__)
 def get(stuff = None):
     if not app.authd:
         logging.warn('Need to auth')
-        return redirect('/token')
+        return redirect('/gen-token')
 
     # text = request.form['code']
     threading.Thread(target = wrapper, args=[]).start()
@@ -81,7 +81,7 @@ def get(stuff = None):
 # * Need a confirmed email, remove from PhD and put into masters, need SID
 # * QCS: Ask about conflicting
 
-@app.route("/token")
+@app.route("/gen-token")
 def token():
     oauth = SpotifyOAuth(
             scope = scope,
@@ -91,7 +91,7 @@ def token():
     auth_url = oauth.get_authorize_url()
     return render_template('my-form.html').replace('SHIT', auth_url)
 
-@app.route('/token', methods=['POST'])
+@app.route('/gen-token', methods=['POST'])
 def post():
     text = request.form['text']
     logging.warn('Ya hit the post!: {}'.format(text))
