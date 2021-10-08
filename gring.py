@@ -130,7 +130,7 @@ def update():
 
     playlist_id = '7KikO7RiLTvBn3L5scILhO'
     name = 'Drifting Off'
-    description = 'Let your mind wander with some Organic/Melodic House'
+    description = 'Let your mind wander with some Organic & Melodic House'
 
     try:
         app.sp.playlist_change_details(
@@ -157,7 +157,7 @@ def wrapper():
 
     while True:
         schedule.run_pending()
-        time.sleep(30)
+        time.sleep(60)
         continue 
 
 if __name__ == '__main__':
