@@ -60,7 +60,7 @@ app = Flasky(__name__)
 @app.route("/")
 def get(stuff = None):
     if not app.authd:
-        print('Need to auth')
+        logging.warn('Need to auth')
         return redirect('/token')
     threading.Thread(target = wrapper, args=[]).start()
     return str(app.authd)
@@ -81,8 +81,8 @@ def token():
 
 @app.route('/token', methods=['POST'])
 def post():
-    print('Ya hit the post!')
     text = request.form['text']
+    logging.warn('Ya hit the post!: {}'.format(text))
     
     # token = util.prompt_for_user_token(scope)
     # oauth = SpotifyOAuth(
@@ -147,6 +147,7 @@ def update():
 
 
 def wrapper():
+    logging.warn('Lets kick this shit off')
     update()
     schedule.every(60).seconds.do(update)
 
