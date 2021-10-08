@@ -68,16 +68,6 @@ def get(stuff = None):
     threading.Thread(target = wrapper, args=[]).start()
     return str(app.authd)
 
-# @app.route("/authd")
-# def getc(stuff = None):
-#     if not app.authd:
-#         logging.warning('Need to auth')
-#         return redirect('/token')
-
-#     text = request.form['code']
-#     threading.Thread(target = wrapper, args=[]).start()
-#     return str(app.authd)
-
 # Raj:
 # * Need a confirmed email, remove from PhD and put into masters, need SID
 # * QCS: Ask about conflicting
@@ -135,24 +125,24 @@ def load_binary(filename):
 def update():
     # username = 'stevenkordonowy1991@gmail.com'
     # test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
-    test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
-    test_name = 'Deployed practice!!!!!'
+    # test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
+    # test_name = 'Deployed practice!!!!!'
 
-    # playlist_id = ''
-    # name = 'Drifting Off'
+    playlist_id = '7KikO7RiLTvBn3L5scILhO'
+    name = 'Drifting Off'
     description = 'Let your mind wander with some Organic/Melodic House'
 
     try:
         app.sp.playlist_change_details(
-            test_playlist_id,
-            name = test_name,
-            public = True,
+            playlist_id,
+            name = name,
+            public = False,
             collaborative = False,
             description = description)
 
         logging.getLogger().setLevel('INFO')
         app.sp.playlist_upload_cover_image(
-            playlist_id = test_playlist_id,
+            playlist_id = playlist_id,
             image_b64 = load_binary('droff.jpg')
         )
         logging.getLogger().setLevel('DEBUG')
