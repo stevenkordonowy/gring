@@ -49,7 +49,8 @@ class Flasky(Flask):
         self.authd = False
 
 # os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
-# os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com'
+# os.environ['SPOTIPY_REDIRECT_URI'] = 'https://gring-fix.herokuapp.com/authd'
+os.environ['SPOTIPY_REDIRECT_URI'] = 'http://www.example.com'
 # oauth = SpotifyOAuth(
 #         scope = scope,
 #         open_browser=False
@@ -60,17 +61,17 @@ app = Flasky(__name__)
 @app.route("/")
 def get(stuff = None):
     if not app.authd:
-        logging.warn('Need to auth')
+        logging.warning('Need to auth')
         return redirect('/gen-token')
 
     # text = request.form['code']
     threading.Thread(target = wrapper, args=[]).start()
     return str(app.authd)
 
-# @app.route("/?code")
+# @app.route("/authd")
 # def getc(stuff = None):
 #     if not app.authd:
-#         logging.warn('Need to auth')
+#         logging.warning('Need to auth')
 #         return redirect('/token')
 
 #     text = request.form['code']
@@ -94,7 +95,7 @@ def token():
 @app.route('/gen-token', methods=['POST'])
 def post():
     text = request.form['text']
-    logging.warn('Ya hit the post!: {}'.format(text))
+    logging.warning('Ya hit the post!: {}'.format(text))
     
     # token = util.prompt_for_user_token(scope)
     # oauth = SpotifyOAuth(
@@ -135,7 +136,7 @@ def update():
     # username = 'stevenkordonowy1991@gmail.com'
     # test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
     test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
-    test_name = 'Deployed practice!'
+    test_name = 'Deployed practice!!!!!'
 
     # playlist_id = ''
     # name = 'Drifting Off'
@@ -160,7 +161,7 @@ def update():
 
 
 def wrapper():
-    logging.warn('Lets kick this shit off')
+    logging.warning('Lets kick this shit off')
     update()
     schedule.every(60).seconds.do(update)
 
