@@ -6,13 +6,29 @@ import time
 import datetime
 import os
 from flask import Flask
+from flask_executor import Executor
+import logging
+from concurrent.futures import ThreadPoolExecutor
+
+# app = Flask(__name__)
+# executor = Executor(app)
+executor = ThreadPoolExecutor(2)
+
+logger = logging.getLogger('green-ring-fix')
+logging.basicConfig(level='INFO')
 
 def pprint(t):
-    print('{}: {}'.format(datetime.datetime.now(), t))
+    logger.info('{}: {}'.format(datetime.datetime.now(), t))
 
 def load_binary(filename):
     with open(next(pathlib.Path('.').glob('{}'.format(filename))), "rb") as img_file:
         return base64.b64encode(img_file.read())
+
+# @app.route('/start')
+# def index():
+#     thing = executor.submit(mainy, email)
+#     thing.result()
+#     return 'Scheduled a job'
 
 def update(spotty, playlist_id, name, description, img):
     pprint('Updating playlist \'{}\''.format(name))
@@ -23,12 +39,14 @@ def update(spotty, playlist_id, name, description, img):
         collaborative = False,
         description = description)
 
+    # logging.getLogger().setLevel('INFO')
     spotty.playlist_upload_cover_image(
         playlist_id = playlist_id,
         image_b64 = img
     )
+    # logging.getLogger().setLevel('DEBUG')
 
-def main(email):
+def mainy(email):
     # Spotify API
     scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
     token = util.prompt_for_user_token(scope=scope, username=email)
@@ -63,9 +81,12 @@ if __name__ == '__main__':
     email = 'rwelch1919@gmail.com'
  
     pprint('Running gring-fix as {}'.format(email))
-    app = Flask(__name__).run()
+    thing = executor.submit(mainy, email)
+    # thing.result()
+    
+    # app.run()
 
-    main(email)
+    # main(email)
 
     
 
