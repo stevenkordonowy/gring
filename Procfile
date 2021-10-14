@@ -1,2 +1,2 @@
 # web: gunicorn gring:app
-worker: python ez-fix.py
+web: python ez-fix.py

@@ -5,6 +5,7 @@ from spotipy import util
 import time
 import datetime
 import os
+from flask import Flask
 
 def pprint(t):
     print('{}: {}'.format(datetime.datetime.now(), t))
@@ -62,6 +63,7 @@ if __name__ == '__main__':
     email = 'rwelch1919@gmail.com'
  
     pprint('Running gring-fix as {}'.format(email))
+    app = Flask(__name__).run()
 
     main(email)
 
