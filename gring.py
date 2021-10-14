@@ -125,10 +125,10 @@ def load_binary(filename):
 def update():
     # username = 'stevenkordonowy1991@gmail.com'
     # test_playlist_id = '4gcOpHvPb7lTATlQXOISHy'
-    # test_playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
+    playlist_id = '6IHTHqqxr7IOAfRkHIpFKd'
     # test_name = 'Deployed practice!!!!!'
 
-    playlist_id = '7KikO7RiLTvBn3L5scILhO'
+    # playlist_id = '7KikO7RiLTvBn3L5scILhO'
     name = 'Drifting Off'
     description = 'Let your mind wander with some Organic & Melodic House'
 
