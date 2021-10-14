@@ -6,11 +6,11 @@ import time
 import datetime
 import os
 from flask import Flask
-from flask_executor import Executor
+# from flask_executor import Executor
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-# app = Flask(__name__)
+app = Flask(__name__)
 # executor = Executor(app)
 executor = ThreadPoolExecutor(2)
 
@@ -69,6 +69,29 @@ def mainy(email):
         time.sleep(60)
         continue 
 
+
+
+def mainy2(email):
+    # Spotify API
+    scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
+    token = util.prompt_for_user_token(scope=scope, username=email)
+    sp = spotipy.Spotify(auth=token)
+    
+    # Playlist Args
+    playlist_id = '7KikO7RiLTvBn3L5scILhO'
+    name = 'Drifting Off'
+    description = 'Let your mind wander with some Organic & Melodic House'
+    img = load_binary('droff.jpg')
+
+    update(
+        spotty=sp,
+        playlist_id=playlist_id,
+        name=name,
+        description=description,
+        img=img
+    )
+
+
 if __name__ == '__main__':
     # import sys
     # if len(sys.argv) != 2:
@@ -81,12 +104,13 @@ if __name__ == '__main__':
     email = 'rwelch1919@gmail.com'
  
     pprint('Running gring-fix as {}'.format(email))
-    thing = executor.submit(mainy, email)
+    # executor.submit(mainy, email)
+    # print('Past submit')
     # thing.result()
     
     # app.run()
 
-    # main(email)
+    mainy2(email)
 
     
 
