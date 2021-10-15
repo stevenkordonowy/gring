@@ -30,7 +30,7 @@ def index():
 
 @app.route('/start')
 def kickoff():
-    thing = executor.submit(mainy, email)
+    thing = executor.submit(mainy)
     # thing.result()
     return 'Scheduled a job'
 
@@ -50,13 +50,14 @@ def update(spotty, playlist_id, name, description, img):
     )
     # logging.getLogger().setLevel('DEBUG')
 
-def mainy(email):
+def mainy():
     # Spotify API
     scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
     token = util.prompt_for_user_token(scope=scope, username=email)
     sp = spotipy.Spotify(auth=token)
     
     # Playlist Args
+    email = 'rwelch1919@gmail.com'
     playlist_id = '7KikO7RiLTvBn3L5scILhO'
     name = 'Drifting Off'
     description = 'Let your mind wander with some Organic & Melodic House'
@@ -105,7 +106,6 @@ if __name__ == '__main__':
 
     os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
     os.environ['SPOTIPY_REDIRECT_URI'] = 'http://www.example.com'
-    email = 'rwelch1919@gmail.com'
  
     pprint('Running gring-fix as {}'.format(email))
     # executor.submit(mainy, email)
