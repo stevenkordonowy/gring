@@ -24,18 +24,18 @@ def load_binary(filename):
     with open(next(pathlib.Path('.').glob('{}'.format(filename))), "rb") as img_file:
         return base64.b64encode(img_file.read())
 
-# @app.route('/start')
-# def index():
-#     thing = executor.submit(mainy, email)
-#     thing.result()
-#     return 'Scheduled a job'
+@app.route('/start')
+def index():
+    thing = executor.submit(mainy, email)
+    # thing.result()
+    return 'Scheduled a job'
 
 def update(spotty, playlist_id, name, description, img):
     pprint('Updating playlist \'{}\''.format(name))
     spotty.playlist_change_details(
         playlist_id,
         name = name,
-        public = False,
+        public = True,
         collaborative = False,
         description = description)
 
@@ -108,9 +108,9 @@ if __name__ == '__main__':
     # print('Past submit')
     # thing.result()
     
-    # app.run()
+    app.run()
 
-    mainy2(email)
+    # mainy2(email)
 
     
 
