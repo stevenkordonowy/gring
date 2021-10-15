@@ -5,11 +5,12 @@ from spotipy import util
 import time
 import datetime
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 # from flask_executor import Executor
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from threading import Thread
+import sys
 
 app = Flask(__name__)
 # executor = Executor(app)
@@ -41,6 +42,15 @@ def kickoff():
     thread.start()
     return jsonify({'thread_name': str(thread.name), 'started': True})
 
+@app.route('/kill')
+def kill():
+    pprint('You want to kill me eh?')
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+    return 'Et tu, Brute?'
+
 def update(spotty, playlist_id, name, description, img):
     pprint('Updating playlist \'{}\''.format(name))
     spotty.playlist_change_details(
@@ -50,16 +60,14 @@ def update(spotty, playlist_id, name, description, img):
         collaborative = False,
         description = description)
 
-    # logging.getLogger().setLevel('INFO')
     spotty.playlist_upload_cover_image(
         playlist_id = playlist_id,
         image_b64 = img
     )
-    # logging.getLogger().setLevel('DEBUG')
 
 def mainy():
     email = 'rwelch1919@gmail.com'
-    
+
     # Spotify API
     scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
     token = util.prompt_for_user_token(scope=scope, username=email)
@@ -72,13 +80,20 @@ def mainy():
     img = load_binary('droff.jpg')
 
     while True:
-        update(
-        spotty=sp,
-        playlist_id=playlist_id,
-        name=name,
-        description=description,
-        img=img
-    )
+        try:
+            update(
+            spotty=sp,
+            playlist_id=playlist_id,
+            name=name,
+            description=description,
+            img=img
+        )
+        except Exception as e:
+            pprint('Error updating\n{}'.format(e))
+            pprint('Attempting to regenerate token')
+            token = util.prompt_for_user_token(scope=scope, username=email)
+            sp = spotipy.Spotify(auth=token)
+
         time.sleep(60)
         continue 
 
