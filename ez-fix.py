@@ -30,7 +30,8 @@ def index():
 
 @app.route('/start')
 def kickoff():
-    thing = executor.submit(mainy)
+    executor.submit(mainy)
+    # thing = executor.submit(mainy)
     # thing.result()
     return 'Scheduled a job'
 
@@ -107,7 +108,7 @@ if __name__ == '__main__':
     os.environ['SPOTIPY_CLIENT_SECRET'] = 'b6407e24d4e343d189a9d61590226f2a'
     os.environ['SPOTIPY_REDIRECT_URI'] = 'http://www.example.com'
  
-    pprint('Running gring-fix as {}'.format(email))
+    pprint('Running gring-fix')
     # executor.submit(mainy, email)
     # print('Past submit')
     # thing.result()
