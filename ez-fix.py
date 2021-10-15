@@ -5,10 +5,11 @@ from spotipy import util
 import time
 import datetime
 import os
-from flask import Flask
+from flask import Flask, jsonify
 # from flask_executor import Executor
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from threading import Thread
 
 app = Flask(__name__)
 # executor = Executor(app)
@@ -30,10 +31,15 @@ def index():
 
 @app.route('/start')
 def kickoff():
-    executor.submit(mainy)
+    # executor.submit(mainy)
     # thing = executor.submit(mainy)
     # thing.result()
-    return 'Scheduled a job'
+    # return 'Scheduled a job'
+
+    thread = Thread(target=mainy)
+    thread.daemon = True
+    thread.start()
+    return jsonify({'thread_name': str(thread.name), 'started': True})
 
 def update(spotty, playlist_id, name, description, img):
     pprint('Updating playlist \'{}\''.format(name))
@@ -52,13 +58,14 @@ def update(spotty, playlist_id, name, description, img):
     # logging.getLogger().setLevel('DEBUG')
 
 def mainy():
+    email = 'rwelch1919@gmail.com'
+    
     # Spotify API
     scope = 'playlist-modify-public playlist-modify-private ugc-image-upload'
     token = util.prompt_for_user_token(scope=scope, username=email)
     sp = spotipy.Spotify(auth=token)
     
     # Playlist Args
-    email = 'rwelch1919@gmail.com'
     playlist_id = '7KikO7RiLTvBn3L5scILhO'
     name = 'Drifting Off'
     description = 'Let your mind wander with some Organic & Melodic House'
