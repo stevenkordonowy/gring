@@ -24,8 +24,12 @@ def load_binary(filename):
     with open(next(pathlib.Path('.').glob('{}'.format(filename))), "rb") as img_file:
         return base64.b64encode(img_file.read())
 
-@app.route('/start')
+@app.route('/')
 def index():
+    return 'Well hello!'
+
+@app.route('/start')
+def kickoff():
     thing = executor.submit(mainy, email)
     # thing.result()
     return 'Scheduled a job'
